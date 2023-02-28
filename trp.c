@@ -1,125 +1,25 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "gurobi_c.h"
-#include "trp.h"
 #include "tsp_file.h"
 
 int main(int argc, char *argv[]) {
-  tsp_file_ptr file_berlin = get_tsp_file("berlin52");
-  tsp_matrix_ptr matrix_berlin = init_tsp_matrix_ptr();
+    if(argc == 2) {
+        char* file_name = argv[1];
+        tsp_file_ptr file_ptr = get_tsp_file("berlin52.txt");
+        tsp_matrix_ptr matrix_ptr = init_tsp_matrix_ptr();
 
-  add_nodes_to_tsp_matrix(matrix_berlin, file_berlin);
-  for(int i = 0; i < matrix_berlin->size; i++) {
-    set_tsp_matrix_for_node(matrix_berlin, matrix_berlin->nodes[i]);
-  }
+        add_nodes_to_tsp_matrix(matrix_ptr, file_ptr);
+        for(int i = 0; i < matrix_ptr->size; i++) {
+            set_tsp_matrix_for_node(matrix_ptr, matrix_ptr->nodes[i]);
+            pretty_print_node(matrix_ptr->nodes[i]);
+        }
 
-  free(file_berlin);
-  free(matrix_berlin);
+        pretty_print_matrix(matrix_ptr);
 
-  //pretty_print_matrix(tsp_matrix);
-
-  tsp_file_ptr file_eil = get_tsp_file("eil101");
-  tsp_matrix_ptr matrix_eil = init_tsp_matrix_ptr();
-
-  add_nodes_to_tsp_matrix(matrix_eil, file_eil);
-  for(int i = 0; i < matrix_eil->size; i++) {
-    set_tsp_matrix_for_node(matrix_eil, matrix_eil->nodes[i]);
-  }
-
-  free(file_eil);
-  free(matrix_eil);
-
-//   GRBenv   *env   = NULL;
-//   GRBmodel *model = NULL;
-//   int       error = 0;
-//   double    sol[3];
-//   int       ind[3];
-//   double    val[3];
-//   double    obj[3];
-//   char      vtype[3];
-//   int       optimstatus;
-//   double    objval;
-
-//   /* Create environment */
-//   error = GRBemptyenv(&env);
-//   if (error) goto QUIT;
-
-//   error = GRBsetstrparam(env, "LogFile", "trp.log");
-//   if (error) goto QUIT;
-
-//   error = GRBstartenv(env);
-//   if (error) goto QUIT;
-
-//   /* Create an empty model */
-//   error = GRBnewmodel(env, &model, "trp", 0, NULL, NULL, NULL, NULL, NULL);
-//   if (error) goto QUIT;
-
-//   /* Add variables */
-//   obj[0] = 1; obj[1] = 1; obj[2] = 2;
-//   vtype[0] = GRB_BINARY; vtype[1] = GRB_BINARY; vtype[2] = GRB_BINARY;
-//   error = GRBaddvars(model, 3, 0, NULL, NULL, NULL, obj, NULL, NULL, vtype,
-//                      NULL);
-//   if (error) goto QUIT;
-
-//   /* Change objective sense to maximization */
-//   error = GRBsetintattr(model, GRB_INT_ATTR_MODELSENSE, GRB_MAXIMIZE);
-//   if (error) goto QUIT;
-
-//   /* First constraint: x + 2 y + 3 z <= 4 */
-//   ind[0] = 0; ind[1] = 1; ind[2] = 2;
-//   val[0] = 1; val[1] = 2; val[2] = 3;
-
-//   error = GRBaddconstr(model, 3, ind, val, GRB_LESS_EQUAL, 4.0, "c0");
-//   if (error) goto QUIT;
-
-//   /* Second constraint: x + y >= 1 */
-//   ind[0] = 0; ind[1] = 1;
-//   val[0] = 1; val[1] = 1;
-
-//   error = GRBaddconstr(model, 2, ind, val, GRB_GREATER_EQUAL, 1.0, "c1");
-//   if (error) goto QUIT;
-
-//   /* Optimize model */
-//   error = GRBoptimize(model);
-//   if (error) goto QUIT;
-
-//   /* Write model to 'trp.lp' */
-//   error = GRBwrite(model, "trp.lp");
-//   if (error) goto QUIT;
-
-//   /* Capture solution information */
-//   error = GRBgetintattr(model, GRB_INT_ATTR_STATUS, &optimstatus);
-//   if (error) goto QUIT;
-
-//   error = GRBgetdblattr(model, GRB_DBL_ATTR_OBJVAL, &objval);
-//   if (error) goto QUIT;
-
-//   error = GRBgetdblattrarray(model, GRB_DBL_ATTR_X, 0, 3, sol);
-//   if (error) goto QUIT;
-
-//   printf("\nOptimization complete\n");
-//   if (optimstatus == GRB_OPTIMAL) {
-//     printf("Optimal objective: %.4e\n", objval);
-
-//     printf("  x=%.0f, y=%.0f, z=%.0f\n", sol[0], sol[1], sol[2]);
-//   } else if (optimstatus == GRB_INF_OR_UNBD) {
-//     printf("Model is infeasible or unbounded\n");
-//   } else {
-//     printf("Optimization was stopped early\n");
-//   }
-
-// QUIT:
-//   /* Error reporting */
-//   if (error) {
-//     printf("ERROR: %s\n", GRBgeterrormsg(env));
-//     exit(1);
-//   }
-
-//   /* Free model */
-//   GRBfreemodel(model);
-
-//   /* Free environment */
-//   GRBfreeenv(env);
-
-  return 0;
+        free(file_ptr);
+        free(matrix_ptr);  
+    } else {
+        printf("Usage: trp <filename>\n");
+    }
+    return 0;
 }

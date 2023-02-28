@@ -15,7 +15,6 @@ tsp_file_ptr init_tsp_file_ptr() {
 tsp_file_ptr get_tsp_file(char name[30]) {
     char file_path[60] = "./instances/";
     strcat(file_path, name);
-    strcat(file_path, ".txt");
 
     FILE* file_ptr = fopen(file_path, "r");
     char * line = NULL;
@@ -25,7 +24,7 @@ tsp_file_ptr get_tsp_file(char name[30]) {
     printf("Reading file %s\n", file_path);
     
     if(file_ptr == NULL) {
-        return NULL;
+        printf("Error opening file %s\n", file_path);
     }
 
     tsp_file_ptr tsp_file = init_tsp_file_ptr();
@@ -107,7 +106,7 @@ void pretty_print_matrix(tsp_matrix_ptr matrix) {
         for(int j = 0; j < size; j++) {
             printf("%.1lf ", matrix->matrix[i][j]);
         }
-        printf(" ]\n\n");
+        i == size - 1 ? printf("]\n") : printf("]\n\n");
     }
 }
 
