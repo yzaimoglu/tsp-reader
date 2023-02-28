@@ -9,9 +9,8 @@ SOURCE	= trp.c tsp_file.c util.c
 HEADER	= tsp_file.h util.h
 OUT	= trp
 
-trp: $(OBJS)
+all: $(OBJS)
 	$(CC) $(CARGS) $(OBJS) -o $(OUT) -I$(INC) $(CLIB) -lm
-	./$(OUT)
 
 berlin52: $(OBJS)
 	$(CC) $(CARGS) $(OBJS) -o $(OUT) -I$(INC) $(CLIB) -lm
