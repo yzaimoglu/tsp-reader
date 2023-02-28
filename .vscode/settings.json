@@ -1,5 +1,12 @@
 {
     "files.associations": {
-        "tsrp.h": "c"
+        "tsrp.h": "c",
+        "tsp_file.h": "c",
+        "__locale": "c",
+        "stdio.h": "c",
+        "stdlib.h": "c",
+        "util.h": "c",
+        "string.h": "c",
+        "gurobi_c.h": "c"
     }
 }
