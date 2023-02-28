@@ -5,7 +5,7 @@
 int main(int argc, char *argv[]) {
     if(argc == 2) {
         char* file_name = argv[1];
-        tsp_file_ptr file_ptr = get_tsp_file("berlin52.txt");
+        tsp_file_ptr file_ptr = get_tsp_file(file_name);
         tsp_matrix_ptr matrix_ptr = init_tsp_matrix_ptr();
 
         add_nodes_to_tsp_matrix(matrix_ptr, file_ptr);
